@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CardDrag : MonoBehaviour
 {
-    [SerializeField] private Vector3 boxSize = new Vector3(1, 1, 0);
+    [SerializeField] private Vector2 boxSize = new Vector2(1, 1);
 
     [SerializeField] private Card card;
 
@@ -17,12 +18,15 @@ public class CardDrag : MonoBehaviour
     }
     private void OnMouseUpAsButton()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.BoxCast(ray.origin, boxSize, ray.direction, out hit))
+
+        var cols = Physics2D.OverlapAreaAll(this.transform.position, boxSize);
+
+        if (cols != null)
         {
-            ICardReadable hitPiece = hit.collider.GetComponent<ICardReadable>();
-            if (hitPiece != null)
+            if (cols.Any(x => x.GetComponent<ICardReadable>() != null))
             {
+                Debug.Log("d");
+                ICardReadable hitPiece = cols.Select(x => x.GetComponent<ICardReadable>()).Where(x => x != null).First();
                 hitPiece.ReadCard(card);
             }
         }

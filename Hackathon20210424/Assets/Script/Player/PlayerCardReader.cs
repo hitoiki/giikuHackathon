@@ -22,12 +22,14 @@ public class PlayerCardReader : MonoBehaviour, ICardReadable
         }
         else if (card.coordinates.Length == 1)
         {
+            Debug.Log("a move");
             gridder.MoveGrid(card.coordinates[0]);
         }
         else
         {
             foreach (Coordinate move in card.coordinates)
             {
+                Debug.Log("aim move");
                 gridder.AimGrid(move);
             }
         }

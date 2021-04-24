@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour, IGridPuttable
+public class PlayerState : MonoBehaviour
 {
-    public GridManeger gridManeger;
+    public GridManeger grid;
 
 }

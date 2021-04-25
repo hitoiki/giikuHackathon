@@ -5,33 +5,39 @@ using UnityEngine;
 public class PlayerCardReader : MonoBehaviour, ICardReadable
 {
     [SerializeField] PlayerState state;
-    [SerializeField] PlayerGridder gridder;
+    [SerializeField] PlayerGridMover gridMover;
 
     private void Start()
     {
         if (state == null) state = GetComponent<PlayerState>();
-        if (gridder == null) gridder = GetComponent<PlayerGridder>();
+        if (gridMover == null) gridMover = GetComponent<PlayerGridMover>();
     }
 
 
     public void ReadCard(Card card)
     {
-        if (card.coordinates.Length == 0)
+        if (card.useTimes > 0)
         {
-            Debug.Log("no movement");
-        }
-        else if (card.coordinates.Length == 1)
-        {
-            Debug.Log("a move");
-            gridder.MoveGrid(card.coordinates[0]);
-        }
-        else
-        {
-            foreach (Coordinate move in card.coordinates)
+            if (card.coordinates.Length == 0)
             {
-                Debug.Log("aim move");
-                gridder.AimGrid(move);
+                Debug.Log("no movement");
             }
+            else if (card.coordinates.Length == 1)
+            {
+                Debug.Log("a move");
+                bool boo = gridMover.MoveGrid(card.coordinates[0]);
+                if (boo) card.useTimes -= 1;
+
+            }
+            else
+            {
+                foreach (Coordinate move in card.coordinates)
+                {
+                    Debug.Log("aim move");
+
+                }
+            }
+
         }
 
 

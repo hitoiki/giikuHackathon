@@ -10,12 +10,13 @@ public class GridManeger : MonoBehaviour
     //Gridに物を置く、消す、動かす処理は全てここを介して行う
     //動かす流れとして、まずGridManegerは位置情報とGridItemをセットにしたListを持つ。
     //
-    [SerializeField] Tilemap fieldTile;
-    [SerializeField] Vector3 gridSize;
+    [SerializeField] Tilemap fieldTile = null;
+    [SerializeField] Vector2 gridSize = new Vector2(0.9f, 0.9f);
+    Vector3 gridSize3D;
 
     private void Start()
     {
-
+        gridSize3D = new Vector3(gridSize.x, gridSize.y, fieldTile.transform.position.z);
     }
 
     public Vector3Int CheckNowGrid(Vector3 pos)
@@ -25,12 +26,12 @@ public class GridManeger : MonoBehaviour
         return vector;
     }
 
-    public Collider[] GridCheck(Vector3Int vec)
+    public Collider2D[] GridCheck(Vector3Int vec)
     {
         if (fieldTile.HasTile(vec))
         {
 
-            return Physics.OverlapBox(fieldTile.GetCellCenterWorld(vec), gridSize);
+            return Physics2D.OverlapAreaAll(fieldTile.GetCellCenterWorld(vec) - (gridSize3D / 2), fieldTile.GetCellCenterWorld(vec) + (gridSize3D / 2));
         }
         else return null;
     }
@@ -49,4 +50,5 @@ public class GridManeger : MonoBehaviour
 
 
 }
+
 

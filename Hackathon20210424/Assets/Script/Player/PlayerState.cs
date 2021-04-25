@@ -5,5 +5,4 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     public GridManeger grid;
-
 }
